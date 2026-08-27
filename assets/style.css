@@ -144,6 +144,15 @@ a {
     transition: .3s transform, .3s box-shadow
 }
 
+.nav-inner{
+  max-width:1300px; margin:0 auto;
+  min-height:var(--nav-h);
+  padding:16px 32px;
+  display:flex; align-items:center; gap:28px;
+}
+.brand{ display:flex; }
+.brand-logo{ height:46px; width:auto; }
+
 .btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 24px #0002
