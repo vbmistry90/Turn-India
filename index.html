@@ -13,6 +13,68 @@
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap"
     rel="stylesheet">
+  <style>
+    .video-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+
+    .play-button {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s ease;
+    }
+
+    .play-button:hover {
+      transform: scale(1.12);
+    }
+
+    .video-placeholder p {
+      margin-top: 15px;
+    }
+
+    .video-card {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      /* Full screen height */
+      margin: 30px 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    /* The Cloudinary player renders its own small 16:9 box by default,
+       which left it floating inside a huge black .video-card.
+       This forces the iframe itself to be exactly as big as the
+       card in both dimensions, and oversizes+centers it (cover-style)
+       so there's no letterboxing, no matter the section's aspect ratio. */
+    .video-card iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 56.25vw;
+      /* 16:9 based on width */
+      min-height: 100%;
+      min-width: 177.78vh;
+      /* 16:9 based on height, covers tall/narrow viewports too */
+      transform: translate(-50%, -50%);
+      border: none;
+      display: block;
+    }
+  </style>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 
@@ -80,17 +142,18 @@
     </section>
 
     <section id="project" class="project section dark-section wave-both">
-      <div class="center reveal">
-        <span class="eyebrow">SEE IT IN ACTION</span>
-        <h2>Watch the Project</h2>
-      </div>
       <div class="video-card reveal">
         <div class="video-glow"></div>
-        <button class="play-button" id="playDemo" aria-label="Play project demo">▶</button>
-        <p>Project video coming soon</p>
+        <div class="video-placeholder" id="videoPlaceholder">
+          <button class="play-button" id="playDemo" aria-label="Play project demo">
+            ▶
+          </button>
+          <p>Click to watch project demo</p>
+        </div>
+        <iframe id="projectVideo" style="display: none;" title="Project Video" frameborder="0"
+          allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen>
+        </iframe>
       </div>
-      <p class="video-caption">A recorded demonstration of our technology upgrade process and its impact on the natural
-        environment.</p>
     </section>
 
     <section class="stats section">
@@ -129,8 +192,6 @@
       <div>
         <a class="brand" href="index.html">
           <img src="assets/logo.png" alt="TURN India logo" class="brand-logo">
-          <!-- <span class="brand-mark">T</span><span><b>TURN</b> India<small>Upgrade in
-              Progress</small></span> -->
         </a>
         <p>Upgrading the world's technology to work <i>with</i> nature, not against it. A global movement for a
           sustainable future.</p><small>© 2026 TURN India. All rights reserved.</small>
@@ -155,6 +216,16 @@
   <div class="toast" id="toast"></div>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="assets/script.js"></script>
+  <script>
+    document.getElementById("playDemo").addEventListener("click", function () {
+      const video = document.getElementById("projectVideo");
+      video.src =
+        "https://player.cloudinary.com/embed/?cloud_name=to5mtmpw&public_id=samples%2Felephants&autoplay=true";
+
+      video.style.display = "block";
+      document.getElementById("videoPlaceholder").style.display = "none";
+    });
+  </script>
 </body>
 
 </html>
