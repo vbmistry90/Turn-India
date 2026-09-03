@@ -1492,3 +1492,38 @@ img{ max-width:100%; display:block; }
   cursor: pointer;
   font-size: 16px;
 }
+/* fixed at the top, transparent by default, and switch to a solid background once the user scrolls */
+/* 03/09/2026 */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: transparent;
+  box-shadow: none;
+  transition: background 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+}
+
+.navbar.scrolled {
+  background: linear-gradient(90deg, #12390cdd, #12390c99),
+              radial-gradient(circle at 70% 40%, transparent, #061b06aa);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+.navbar.scrolled a,
+.navbar.scrolled .brand-logo {
+  color: #f5f5f0; /* light text once scrolled */
+}
+/* .navbar.scrolled {
+  background: rgba(255, 255, 255, 0.95); /* swap for your theme's bg color *
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+} */
+
+/* Since navbar is now fixed (out of flow), push page content down
+   so the hero isn't hidden underneath it */
+body {
+  padding-top: 0; /* keep 0 if hero should sit behind navbar (transparent look) */
+}
+
+/* If hero should NOT sit under the navbar, uncomment instead: */
+/* main { padding-top: 80px; } */
