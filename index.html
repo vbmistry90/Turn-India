@@ -162,11 +162,14 @@
           <button class="play-button" id="playDemo" aria-label="Play project demo">
             ▶
           </button>
-          <p>Click to watch project demo</p>
+          <p id="videoLabel">Click to watch project demo</p>
         </div>
-        <iframe id="projectVideo" style="display: none;" title="Project Video" frameborder="0"
-          allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen>
-        </iframe>
+        <!-- <iframe id="projectVideo" style="display: none;" title="Project Video" frameborder="0"
+          allow="autoplay; fullscreen; encrypted-media; picture-in-picture">
+        </iframe> -->
+        <video id="projectVideo" style="display: none;" width="100%" height="100%"
+          controls playsinline preload="none">
+        </video>
       </div>
     </section>
 
@@ -230,7 +233,51 @@
   <div class="toast" id="toast"></div>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="assets/script.js"></script>
+
   <script>
+  const playBtn = document.getElementById("playDemo");
+  const videoEl = document.getElementById("projectVideo");
+  const placeholder = document.getElementById("videoPlaceholder");
+  const videoLabel = document.getElementById("videoLabel");
+
+  let videoData = null;
+
+  function setLabel(text) {
+    if (videoLabel) videoLabel.textContent = text;
+  }
+
+   fetch("https://turn-india-next.vercel.app/api/public/video_main")
+    .then((res) => res.json())
+    .then((result) => {
+      if (result.success && result.data) {
+        videoData = result.data;
+        if (videoData.name) {
+          setLabel(`Click to watch: ${videoData.name}`);
+        }
+      } else {
+        setLabel("Video unavailable");
+        if (playBtn) playBtn.disabled = true;
+      }
+    })
+    .catch((err) => {
+      console.log("Failed to load video:", err);
+      setLabel("Video unavailable");
+      if (playBtn) playBtn.disabled = true;
+    });
+
+  if (playBtn) {
+    playBtn.addEventListener("click", function () {
+      if (!videoData || !videoData.url || !videoEl || !placeholder) return;
+
+      videoEl.src = videoData.url;
+      videoEl.style.display = "block";
+      placeholder.style.display = "none";
+      videoEl.play().catch((err) => console.log("Playback error:", err));
+    });
+  }
+</script>
+
+  <!-- <script>
   const playBtn = document.getElementById("playDemo");
   const videoEl = document.getElementById("projectVideo");
   const placeholder = document.getElementById("videoPlaceholder");
@@ -266,7 +313,7 @@
     placeholder.style.display = "none";
     videoEl.play().catch((err) => console.error("Playback error:", err));
   });
-</script>
+</script> -->
   <!-- <script>
     document.getElementById("playDemo").addEventListener("click", function () {
       const video = document.getElementById("projectVideo");
