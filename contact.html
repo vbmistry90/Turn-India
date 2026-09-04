@@ -160,7 +160,7 @@
         name: formData.get("name"),
         email: formData.get("email"),
         subject: formData.get("subject"),
-        inquiryType: inquiryInput.value,
+        // inquiryType: inquiryInput.value,
         message: formData.get("message"),
       };
 
@@ -170,6 +170,7 @@
       submitBtn.textContent = "Sending...";
 
       try {
+        //const res = await fetch("http://localhost:3000/api/public/contact", {
         const res = await fetch("https://turn-india-next.vercel.app/api/contacts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
