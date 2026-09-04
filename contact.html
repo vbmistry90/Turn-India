@@ -19,18 +19,18 @@
 
 <body>
   <header class="navbar">
-      <a href="index.html" class="brand">
-        <img src="assets/logo.png" alt="TURN India logo" class="brand-logo">
-      </a>
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="TURN India logo" class="brand-logo">
+    </a>
     <button class="menu-toggle"><span></span><span></span></button>
     <nav>
       <a href="index.html">Home</a>
       <a href="mission.html">Our Mission</a>
       <a href="videos.html">Project Videos</a>
       <a href="support.html">Support Us</a>
-      <a href="contact.html"  class="active">Contact</a>
+      <a href="contact.html" class="active">Contact</a>
     </nav>
-      
+
     <a class="btn btn-orange nav-cta" href="support.html">Support the Mission</a>
   </header>
 
@@ -78,7 +78,7 @@
         <div class="form-row"><label>Full Name <b>*</b><input type="text" name="name" placeholder="Your name"
               required></label><label>Email Address <b>*</b><input type="email" name="email"
               placeholder="you@example.com" required></label></div>
-        <label>Organization <span>(optional)</span><input type="text" name="organization"
+        <label>Organization <span>(optional)</span><input type="text" name="subject"
             placeholder="Company, university, or organization"></label>
         <div class="inquiry"><b>Inquiry Type *</b>
           <div class="chips"><button type="button" data-type="Partnership">Partnership</button><button type="button"
@@ -99,7 +99,7 @@
         <a class="brand" href="index.html">
           <img src="assets/logo.png" alt="TURN India logo" class="brand-logo">
           <!-- <span class="brand-mark">T</span><span><b>TURN</b> India<small>Upgrade in Progress</small></span> -->
-            </a>
+        </a>
         <p>Upgrading the world's technology to work <i>with</i> nature, not against it. A global movement for a
           sustainable future.</p><small>© 2026 TURN India. All rights reserved.</small>
       </div>
@@ -108,8 +108,8 @@
         <a href="index.html">Home</a>
         <a href="mission.html">Our Mission</a>
         <a href="videos.html">Project Videos</a>
-          <a href="support.html">Support Us</a>
-          <a href="contact.html">Contact</a>
+        <a href="support.html">Support Us</a>
+        <a href="contact.html">Contact</a>
       </div>
       <div>
         <h4>JOIN THE MOVEMENT</h4>
@@ -121,9 +121,80 @@
     <div class="footer-bottom"><i>"The Earth does not belong to us. We belong to the Earth."</i></div>
   </footer>
   <div class="toast" id="toast"></div>
-  <div class="toast" id="toast"></div>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="assets/script.js"></script>
+  <script>
+    // ---- Inquiry type chip selection ----
+    const chipButtons = document.querySelectorAll(".chips button");
+    const inquiryInput = document.getElementById("inquiryType");
+
+    chipButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        chipButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        inquiryInput.value = btn.dataset.type;
+      });
+    });
+
+    // ---- Form submission ----
+    const form = document.getElementById("message");
+    const toast = document.getElementById("toast");
+
+    function showToast(text, isError = false) {
+      toast.textContent = text;
+      toast.classList.add("show");
+      toast.classList.toggle("error", isError);
+      setTimeout(() => toast.classList.remove("show"), 3500);
+    }
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      if (!inquiryInput.value) {
+        showToast("Please select an inquiry type.", true);
+        return;
+      }
+
+      const formData = new FormData(form);
+      const payload = {
+        name: formData.get("name"),
+        email: formData.get("email"),
+        subject: formData.get("subject"),
+        inquiryType: inquiryInput.value,
+        message: formData.get("message"),
+      };
+
+      const submitBtn = form.querySelector("button[type='submit']");
+      const originalText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
+
+      try {
+        const res = await fetch("https://turn-india-next.vercel.app/api/contacts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await res.json();
+
+        if (res.ok && result.success) {
+          showToast("Message sent! We'll get back to you within 48 hours.");
+          form.reset();
+          chipButtons.forEach((b) => b.classList.remove("active"));
+          inquiryInput.value = "";
+        } else {
+          showToast(result.message || "Something went wrong. Please try again.", true);
+        }
+      } catch (err) {
+        console.error("Contact form submit error:", err);
+        showToast("Network error. Please try again later.", true);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    });
+  </script>
 </body>
 
 </html>
