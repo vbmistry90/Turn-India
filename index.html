@@ -74,6 +74,20 @@
       border: none;
       display: block;
     }
+    /* dynamic video add changes 04-9-2026 */
+    .video-card video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 56.25vw;
+      min-height: 100%;
+      min-width: 177.78vh;
+      transform: translate(-50%, -50%);
+      border: none;
+      display: block;
+      object-fit: cover;
+    }
   </style>
   <link rel="stylesheet" href="assets/style.css">
 </head>
@@ -217,6 +231,43 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="assets/script.js"></script>
   <script>
+  const playBtn = document.getElementById("playDemo");
+  const videoEl = document.getElementById("projectVideo");
+  const placeholder = document.getElementById("videoPlaceholder");
+  const videoLabel = document.getElementById("videoLabel");
+
+  let videoData = null;
+  // Fetch the main video's metadata as soon as the page loads,
+  // so the label/description can update even before the user clicks play.
+  fetch("https://turn-india-next.vercel.app/api/public/video_main")
+    .then((res) => res.json())
+    .then((result) => {
+      if (result.success && result.data) {
+        videoData = result.data;
+        if (videoData.name) {
+          videoLabel.textContent = `Click to watch: ${videoData.name}`;
+        }
+      } else {
+        videoLabel.textContent = "Video unavailable";
+        playBtn.disabled = true;
+      }
+    })
+    .catch((err) => {
+      console.error("Failed to load video:", err);
+      videoLabel.textContent = "Video unavailable";
+      playBtn.disabled = true;
+    });
+
+  playBtn.addEventListener("click", function () {
+    if (!videoData || !videoData.url) return;
+
+    videoEl.src = videoData.url;
+    videoEl.style.display = "block";
+    placeholder.style.display = "none";
+    videoEl.play().catch((err) => console.error("Playback error:", err));
+  });
+</script>
+  <!-- <script>
     document.getElementById("playDemo").addEventListener("click", function () {
       const video = document.getElementById("projectVideo");
       video.src =
@@ -225,7 +276,7 @@
       video.style.display = "block";
       document.getElementById("videoPlaceholder").style.display = "none";
     });
-  </script>
+  </script> -->
 </body>
 
 </html>
