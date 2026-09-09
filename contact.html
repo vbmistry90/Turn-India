@@ -11,6 +11,7 @@
   <link id="favicon" rel="shortcut icon" href="assets/favicon.png" type="image/x-png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap"
     rel="stylesheet">
@@ -19,10 +20,19 @@
 
 <body>
   <header class="navbar">
-    <a href="index.html" class="brand">
+    <!-- <a href="index.html" class="brand">
       <img src="assets/logo.png" alt="TURN India logo" class="brand-logo">
     </a>
-    <button class="menu-toggle"><span></span><span></span></button>
+    <button class="menu-toggle"><span></span><span></span></button> -->
+    <a href="index.html" class="brand">
+      <picture>
+        <source media="(max-width: 576px)" srcset="assets/logo-mobile.png">
+        <img src="assets/logo.png" alt="TURN India logo" class="brand-logo">
+      </picture>
+    </a>
+    <button class="menu-toggle" aria-label="Open menu">
+      <i class="fas fa-align-left"></i>
+    </button>
     <nav>
       <a href="index.html">Home</a>
       <a href="mission.html">Our Mission</a>

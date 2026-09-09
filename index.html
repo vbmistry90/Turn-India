@@ -8,6 +8,7 @@
   <meta content="TurnIndia | Upgrade Technology Protect Nature." name="keywords">
   <meta content="A modern environmental technology movement." name="description">
   <link id="favicon" rel="shortcut icon" href="assets/favicon.png" type="image/x-png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -74,6 +75,7 @@
       border: none;
       display: block;
     }
+
     /* dynamic video add changes 04-9-2026 */
     .video-card video {
       position: absolute;
@@ -94,10 +96,23 @@
 
 <body>
   <header class="navbar">
-    <a href="index.html" class="brand">
+    <!-- <a href="index.html" class="brand">
       <img src="assets/logo.png" alt="TURN India logo" class="brand-logo">
+    </a> -->
+    <!-- <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="TURN India logo" class="brand-logo brand-logo-desktop">
+      <img src="assets/logo-mobile.png" alt="TURN India logo" class="brand-logo brand-logo-mobile">
+    </a> -->
+    <a href="index.html" class="brand">
+      <picture>
+        <source media="(max-width: 576px)" srcset="assets/logo-mobile.png">
+        <img src="assets/logo.png" alt="TURN India logo" class="brand-logo">
+      </picture>
     </a>
-    <button class="menu-toggle" aria-label="Open menu"><span></span><span></span></button>
+    <button class="menu-toggle" aria-label="Open menu">
+      <i class="fas fa-align-left"></i>
+    </button>
+    <!-- <button class="menu-toggle" aria-label="Open menu"><span></span><span></span></button> -->
     <nav>
       <a class="active" href="index.html">Home</a>
       <a href="mission.html">Our Mission</a>
@@ -167,8 +182,7 @@
         <!-- <iframe id="projectVideo" style="display: none;" title="Project Video" frameborder="0"
           allow="autoplay; fullscreen; encrypted-media; picture-in-picture">
         </iframe> -->
-        <video id="projectVideo" style="display: none;" width="100%" height="100%"
-          controls playsinline preload="none">
+        <video id="projectVideo" style="display: none;" width="100%" height="100%" controls playsinline preload="none">
         </video>
       </div>
     </section>
@@ -235,95 +249,48 @@
   <script src="assets/script.js"></script>
 
   <script>
-  const playBtn = document.getElementById("playDemo");
-  const videoEl = document.getElementById("projectVideo");
-  const placeholder = document.getElementById("videoPlaceholder");
-  const videoLabel = document.getElementById("videoLabel");
+    const playBtn = document.getElementById("playDemo");
+    const videoEl = document.getElementById("projectVideo");
+    const placeholder = document.getElementById("videoPlaceholder");
+    const videoLabel = document.getElementById("videoLabel");
 
-  let videoData = null;
+    let videoData = null;
 
-  function setLabel(text) {
-    if (videoLabel) videoLabel.textContent = text;
-  }
+    function setLabel(text) {
+      if (videoLabel) videoLabel.textContent = text;
+    }
 
-   fetch("https://turn-india-next.vercel.app/api/public/video_main")
-    .then((res) => res.json())
-    .then((result) => {
-      if (result.success && result.data) {
-        videoData = result.data;
-        if (videoData.name) {
-          setLabel(`Click to watch: ${videoData.name}`);
+    fetch("https://turn-india-next.vercel.app/api/public/video_main")
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.success && result.data) {
+          videoData = result.data;
+          if (videoData.name) {
+            setLabel(`Click to watch: ${videoData.name}`);
+          }
+        } else {
+          setLabel("Video unavailable");
+          if (playBtn) playBtn.disabled = true;
         }
-      } else {
+      })
+      .catch((err) => {
+        console.log("Failed to load video:", err);
         setLabel("Video unavailable");
         if (playBtn) playBtn.disabled = true;
-      }
-    })
-    .catch((err) => {
-      console.log("Failed to load video:", err);
-      setLabel("Video unavailable");
-      if (playBtn) playBtn.disabled = true;
-    });
+      });
 
-  if (playBtn) {
-    playBtn.addEventListener("click", function () {
-      if (!videoData || !videoData.url || !videoEl || !placeholder) return;
+    if (playBtn) {
+      playBtn.addEventListener("click", function () {
+        if (!videoData || !videoData.url || !videoEl || !placeholder) return;
 
-      videoEl.src = videoData.url;
-      videoEl.style.display = "block";
-      placeholder.style.display = "none";
-      videoEl.play().catch((err) => console.log("Playback error:", err));
-    });
-  }
-</script>
+        videoEl.src = videoData.url;
+        videoEl.style.display = "block";
+        placeholder.style.display = "none";
+        videoEl.play().catch((err) => console.log("Playback error:", err));
+      });
+    }
+  </script>
 
-  <!-- <script>
-  const playBtn = document.getElementById("playDemo");
-  const videoEl = document.getElementById("projectVideo");
-  const placeholder = document.getElementById("videoPlaceholder");
-  const videoLabel = document.getElementById("videoLabel");
-
-  let videoData = null;
-  // Fetch the main video's metadata as soon as the page loads,
-  // so the label/description can update even before the user clicks play.
-  fetch("https://turn-india-next.vercel.app/api/public/video_main")
-    .then((res) => res.json())
-    .then((result) => {
-      if (result.success && result.data) {
-        videoData = result.data;
-        if (videoData.name) {
-          videoLabel.textContent = `Click to watch: ${videoData.name}`;
-        }
-      } else {
-        videoLabel.textContent = "Video unavailable";
-        playBtn.disabled = true;
-      }
-    })
-    .catch((err) => {
-      console.error("Failed to load video:", err);
-      videoLabel.textContent = "Video unavailable";
-      playBtn.disabled = true;
-    });
-
-  playBtn.addEventListener("click", function () {
-    if (!videoData || !videoData.url) return;
-
-    videoEl.src = videoData.url;
-    videoEl.style.display = "block";
-    placeholder.style.display = "none";
-    videoEl.play().catch((err) => console.error("Playback error:", err));
-  });
-</script> -->
-  <!-- <script>
-    document.getElementById("playDemo").addEventListener("click", function () {
-      const video = document.getElementById("projectVideo");
-      video.src =
-        "https://player.cloudinary.com/embed/?cloud_name=to5mtmpw&public_id=samples%2Felephants&autoplay=true";
-
-      video.style.display = "block";
-      document.getElementById("videoPlaceholder").style.display = "none";
-    });
-  </script> -->
 </body>
 
 </html>

@@ -1527,3 +1527,253 @@ body {
 
 /* If hero should NOT sit under the navbar, uncomment instead: */
 /* main { padding-top: 80px; } */
+
+/* Mobile Responsive logo  */
+.brand-logo {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+@media (max-width: 991px) {
+  .brand-logo {
+    height: 38px;
+  }
+}
+
+@media (max-width: 576px) {
+  .brand-logo {
+    height: 30px;
+  }
+}
+
+/* ============================================
+   MOBILE / TABLET NAVBAR FIX
+   Append this to the END of assets/style.css
+   Covers: phones + tablets (<= 992px)
+   ============================================ */
+
+@media (max-width: 992px) {
+
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: linear-gradient(90deg, #12390cdd, #12390c99),
+              radial-gradient(circle at 70% 40%, transparent, #061b06aa);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+
+  /* Logo block */
+  .navbar .brand {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .brand-logo {
+    height: 34px;      /* keeps logo compact on small screens */
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+  }
+
+  /* Hamburger button — boxed style like the reference */
+  .menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 42px;
+    height: 38px;
+    border: 1px solid #d7dbe0;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .menu-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: #16324f;   /* adjust to your brand navy/orange */
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  /* X animation when menu is open — JS toggles .is-open on .menu-toggle */
+  .menu-toggle.is-open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .menu-toggle.is-open span:nth-child(2) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Off-canvas / dropdown nav */
+  nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    align-items: stretch;
+    max-height: 0;
+    overflow: hidden;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    transition: max-height 0.3s ease;
+  }
+
+  nav.is-open {
+    max-height: 400px;   /* enough to fit all links */
+  }
+
+  nav a {
+    padding: 14px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* CTA button moves inside the mobile nav instead of sitting in the bar */
+  .nav-cta {
+    order: 3;
+    margin: 14px 20px;
+  }
+
+  .navbar .nav-cta {
+    display: none;   /* hide the top-bar CTA on small screens; shown inside nav instead */
+  }
+}
+
+@media (max-width: 576px) {
+  .brand-logo {
+    height: 28px;
+    max-width: 130px;
+  }
+
+  .menu-toggle {
+    width: 38px;
+    height: 34px;
+  }
+}
+
+@media (max-width: 992px) {
+  .menu-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 38px;
+    border: 1px solid #d7dbe0;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 18px;
+    color: #16324f;   /* adjust to your brand color */
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .menu-toggle:hover {
+    background: #f5f6f8;
+  }
+
+  .menu-toggle.is-open {
+    background: #16324f;
+    color: #fff;
+  }
+}
+
+@media (max-width: 992px) {
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: linear-gradient(90deg, #12390cdd, #12390c99),
+              radial-gradient(circle at 70% 40%, transparent, #061b06aa);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+
+  .navbar > .nav-cta {
+    display: none !important;
+  }
+
+  .brand-logo {
+    height: 34px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+  }
+
+  .menu-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 38px;
+    border: 1px solid #d7dbe0;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    color: #16324f;
+  }
+
+  .menu-toggle.is-open {
+    background: #16324f;
+    color: #fff;
+  }
+
+  nav {
+    display: none !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    background: #ffffff !important;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    z-index: 998;
+    margin: 0;
+    padding: 8px 0;
+  }
+
+  nav.is-open {
+    display: flex !important;
+  }
+
+  nav a {
+    display: block !important;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 20px !important;
+    border-bottom: 1px solid #f0f0f0;
+    color: #16324f !important;
+    background: transparent !important;
+  }
+
+  nav a.active,
+  nav a:hover {
+    color: #e08325 !important;
+    background: #faf6ef !important;
+  }
+
+  nav .nav-cta {
+    display: block !important;
+    margin: 12px 20px !important;
+    text-align: center;
+  }
+}

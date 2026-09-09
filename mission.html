@@ -10,6 +10,7 @@
     <meta content="A modern environmental technology movement." name="description">
     <!-- Favicon -->
     <link id="favicon" rel="shortcut icon" href="assets/favicon.png" type="image/x-png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -21,10 +22,19 @@
 <body>
     <!-- <header class="navbar solid"> -->
     <header class="navbar">
-        <a class="brand" href="index.html">
+        <!-- <a class="brand" href="index.html">
             <img src="assets/logo.png" alt="TURN India logo" class="brand-logo">
         </a>
-        <button class="menu-toggle" aria-label="Open menu"><span></span><span></span></button>
+        <button class="menu-toggle" aria-label="Open menu"><span></span><span></span></button> -->
+        <a href="index.html" class="brand">
+            <picture>
+                <source media="(max-width: 576px)" srcset="assets/logo-mobile.png">
+                <img src="assets/logo.png" alt="TURN India logo" class="brand-logo">
+            </picture>
+        </a>
+        <button class="menu-toggle" aria-label="Open menu">
+            <i class="fas fa-align-left"></i>
+        </button>
         <nav>
             <a href="index.html">Home</a>
             <a class="active" href="mission.html">Our Mission</a>

@@ -155,6 +155,47 @@ $(function () {
   $(window).on("scroll", function () {
     $(".navbar:not(.solid)").toggleClass("scrolled", $(this).scrollTop() > 30);
   });
+  // menu-toggle navigation
+  // const menuToggle = document.querySelector('.menu-toggle');
+  // const navEl = document.querySelector('nav');
+  // const toggleIcon = menuToggle.querySelector('i');
+
+  // menuToggle.addEventListener('click', function () {
+  //   navEl.classList.toggle('open');
+  //   const isOpen = navEl.classList.contains('open');
+
+  //   if (isOpen) {
+  //     toggleIcon.classList.remove('fa-align-left');
+  //     toggleIcon.classList.add('fa-xmark');
+  //   } else {
+  //     toggleIcon.classList.remove('fa-xmark');
+  //     toggleIcon.classList.add('fa-align-left');
+  //   }
+  // });
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navEl = document.querySelector('nav');
+  const toggleIcon = menuToggle.querySelector('i');
+
+  menuToggle.addEventListener('click', function () {
+    const isOpen = this.classList.toggle('is-open');
+    navEl.classList.toggle('is-open');
+
+    if (isOpen) {
+      toggleIcon.classList.remove('fa-align-left');
+      toggleIcon.classList.add('fa-xmark'); // or 'fa-times' for older Font Awesome
+    } else {
+      toggleIcon.classList.remove('fa-xmark');
+      toggleIcon.classList.add('fa-align-left');
+    }
+  });
+  // Menu OPen
+  $('.menu-toggle').click(function () {
+    $('nav').toggleClass('open');
+  });
+  // document.querySelector('.menu-toggle').addEventListener('click', function () {
+  //   this.classList.toggle('is-open');
+  //   document.querySelector('nav').classList.toggle('is-open');
+  // });
 });
 
 window.addEventListener('scroll', function () {
@@ -165,3 +206,4 @@ window.addEventListener('scroll', function () {
     navbar.classList.remove('scrolled');
   }
 });
+
